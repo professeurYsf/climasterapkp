@@ -30,7 +30,8 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            if (ksFile.exists()) signingConfig signingConfigs.release
+            // sans keystore.properties : signature debug (APK installable directement)
+            signingConfig ksFile.exists() ? signingConfigs.release : signingConfigs.debug
         }
     }
     compileOptions {
