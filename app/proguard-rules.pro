@@ -1,0 +1,1 @@
+-keepclassmembers class com.climaster.profysf.MainActivity$Bridge { @android.webkit.JavascriptInterface <methods>; }
