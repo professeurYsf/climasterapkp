@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
         applyBars("#0B2545"); // l'accueil est bleu foncé
+        hideSystemBars();
 
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
@@ -168,6 +169,19 @@ public class MainActivity extends AppCompatActivity {
         WindowInsetsControllerCompat c = WindowCompat.getInsetsController(getWindow(), root);
         c.setAppearanceLightStatusBars(lightTop);
         c.setAppearanceLightNavigationBars(!isNight());
+    }
+
+    /** Plein écran immersif : barre d'état et de navigation masquées (réapparaissent par glissement). */
+    private void hideSystemBars() {
+        WindowInsetsControllerCompat c = WindowCompat.getInsetsController(getWindow(), root);
+        c.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+        c.hide(WindowInsetsCompat.Type.systemBars());
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) hideSystemBars();
     }
 
     @Override
