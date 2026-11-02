@@ -219,3 +219,8 @@ function fit(){
   document.documentElement.style.fontSize=Math.min(22,Math.max(13,Math.min(w*.043,FH*.026)))+'px';
 }
 fit();addEventListener('resize',fit);
+/* WebView Android : le focus du champ ne doit jamais décaler la page (bouton « Config » coupé en haut) */
+const top0=()=>{scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0};
+addEventListener('scroll',top0);addEventListener('resize',top0);
+if(window.visualViewport)visualViewport.addEventListener('resize',top0);
+document.addEventListener('focusin',()=>{top0();setTimeout(top0,50);setTimeout(top0,300)});
