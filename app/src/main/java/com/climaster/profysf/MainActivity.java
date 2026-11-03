@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.Gravity;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
@@ -58,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
     private final Handler ui = new Handler(Looper.getMainLooper());
     private FrameLayout root;
-    private View statusBg;
     private WebView web;
     private int topInset = 0;
     private String topColor = "";
@@ -88,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
         web.setBackgroundColor(Color.TRANSPARENT);
         web.setOverScrollMode(View.OVER_SCROLL_NEVER);
         root.addView(web, new FrameLayout.LayoutParams(-1, -1));
-        statusBg = new View(this);
-        root.addView(statusBg, new FrameLayout.LayoutParams(-1, 0, Gravity.TOP));
         setContentView(root);
 
         // Marges système (barres, encoche, clavier) appliquées nativement : l'interface web s'adapte à tout écran.
@@ -98,9 +94,6 @@ public class MainActivity extends AppCompatActivity {
             Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
             topInset = bars.top;
             v.setPadding(bars.left, bars.top, bars.right, Math.max(bars.bottom, ime.bottom));
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) statusBg.getLayoutParams();
-            lp.height = bars.top;
-            statusBg.setLayoutParams(lp);
             return WindowInsetsCompat.CONSUMED;
         });
         applyBars("#0B2545"); // l'accueil est bleu foncé
@@ -164,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
         if (!topColor.isEmpty()) {
             try { top = Color.parseColor(topColor); } catch (Exception ignored) { }
         }
-        statusBg.setBackgroundColor(top);
         boolean lightTop = ((Color.red(top) * 299 + Color.green(top) * 587 + Color.blue(top) * 114) / 1000) > 150;
         WindowInsetsControllerCompat c = WindowCompat.getInsetsController(getWindow(), root);
         c.setAppearanceLightStatusBars(lightTop);
